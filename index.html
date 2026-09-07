@@ -52,10 +52,8 @@
     box-shadow:var(--shadow);
     overflow:hidden;
     position:relative;
-    min-height:min(780px, calc(100vh - 56px));
-    min-height:min(780px, calc(100dvh - 56px));
-    max-height:calc(100vh - 56px);
-    max-height:calc(100dvh - 56px);
+    min-height:min(780px, calc(var(--vh, 1vh) * 100 - 56px));
+    max-height:calc(var(--vh, 1vh) * 100 - 56px);
     display:flex;
     flex-direction:column;
     border:1px solid rgba(46,24,54,.06);
@@ -249,6 +247,19 @@
 <div class="app" id="app"></div>
 
 <script>
+(function(){
+  // Fix for the classic mobile "100vh" bug — many in-app browsers (Gmail, Instagram, etc.)
+  // and some mobile browsers don't size dvh/vh correctly against the real visible viewport.
+  // window.innerHeight is reliable everywhere, so we measure it ourselves and expose it as
+  // a CSS custom property instead of trusting dvh/vh units directly.
+  function setRealVh(){
+    document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px');
+  }
+  setRealVh();
+  window.addEventListener('resize', setRealVh);
+  window.addEventListener('orientationchange', setRealVh);
+  if (window.visualViewport){ window.visualViewport.addEventListener('resize', setRealVh); }
+})();
 (function(){
   var STATE = { i:0, answers:{}, modalQueue:[], reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches };
 
