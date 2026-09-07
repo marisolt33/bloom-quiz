@@ -52,7 +52,10 @@
     box-shadow:var(--shadow);
     overflow:hidden;
     position:relative;
-    min-height:780px;
+    min-height:min(780px, calc(100vh - 56px));
+    min-height:min(780px, calc(100dvh - 56px));
+    max-height:calc(100vh - 56px);
+    max-height:calc(100dvh - 56px);
     display:flex;
     flex-direction:column;
     border:1px solid rgba(46,24,54,.06);
