@@ -413,7 +413,6 @@
   FLOW = FLOW.concat(EMOTIONAL);
   FLOW.push({id:'proc2', type:'testimonial-processing', chrome:'dark'});
   FLOW.push({id:'reveal', type:'reveal', chrome:'dark'});
-  FLOW.push({id:'privacy', type:'privacy-consent', chrome:'survey'});
   FLOW.push({id:'score-result', type:'score-result', chrome:'dark'});
   FLOW.push({id:'plan', type:'personal-plan', chrome:'dark'});
   FLOW.push({id:'gift1', type:'gift-intro', chrome:'dark'});
@@ -626,37 +625,6 @@
     screen.appendChild(el('<h1 class="q-title">'+step.title+'</h1>'));
     if (step.sub){ screen.appendChild(el('<p class="q-sub" style="margin-top:12px;">'+step.sub+'</p>')); }
     var btn = el('<button class="btn-primary static">Continuar</button>');
-    btn.onclick = next;
-    screen.appendChild(btn);
-  };
-
-  RENDERERS['privacy-consent'] = function(step, screen){
-    screen.appendChild(el('<h1 class="q-title">Tu privacidad primero</h1>'));
-    screen.appendChild(el('<p class="q-sub" style="margin-top:8px;">Antes de continuar, necesitamos tu consentimiento.</p>'));
-
-    var wrap = el('<div style="margin-top:22px;display:flex;flex-direction:column;gap:18px;"></div>');
-
-    var row1 = el('<label class="consent-row">\
-      <input type="checkbox" class="consent-check">\
-      <span>Acepto la <span class="link-like">Política de Privacidad</span> y los <span class="link-like">Términos de Uso</span> de Bloom.</span>\
-    </label>');
-    var row2 = el('<label class="consent-row">\
-      <input type="checkbox" class="consent-check">\
-      <span>Acepto el tratamiento de mis datos de salud personales para que Bloom pueda ofrecerme las funciones de la app. Más información en la <span class="link-like">Política de Privacidad</span> de Bloom.</span>\
-    </label>');
-    wrap.appendChild(row1);
-    wrap.appendChild(row2);
-    screen.appendChild(wrap);
-
-    screen.appendChild(el('<p class="fine-print" style="margin-top:18px;">Puedes retirar tu consentimiento en cualquier momento desde los ajustes de la app Bloom.</p>'));
-
-    var btn = el('<button class="btn-primary" disabled>Continuar</button>');
-    var boxes = wrap.querySelectorAll('.consent-check');
-    boxes.forEach(function(b){
-      b.addEventListener('change', function(){
-        btn.disabled = !(boxes[0].checked && boxes[1].checked);
-      });
-    });
     btn.onclick = next;
     screen.appendChild(btn);
   };
@@ -1100,7 +1068,11 @@
 
     screen.appendChild(el('<div class="guarantee-box"><div class="guarantee-seal">100%<br>7 DÍAS</div><div><b style="font-size:15px;">Garantía de reembolso del 100%</b><p style="font-size:13px;color:var(--ink);margin-top:6px;line-height:1.5;">Confiamos en Bloom. Si lo usas y no te convence, escríbenos: te devolvemos el 100% dentro de los 7 días posteriores a la compra.</p></div></div>'));
 
-    screen.appendChild(el('<p class="fine-print"><b>Tu información está segura.</b> No venderemos ni alquilaremos tu información personal para fines de marketing.</p>'));
+    screen.appendChild(el('<p class="fine-print"><b>Tu información está segura.</b> Tus datos de salud se quedan en tu dispositivo — no los compartimos ni los vendemos.</p>'));
+    screen.appendChild(el('<label class="consent-row" style="margin-top:14px;font-size:12.5px;">\
+      <input type="checkbox" class="consent-check">\
+      <span>Acepto la <span class="link-like">Política de Privacidad</span> y los <span class="link-like">Términos de Uso</span> de Bloom.</span>\
+    </label>'));
   };
 
   RENDERERS['end'] = function(step, screen){
